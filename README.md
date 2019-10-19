@@ -12,5 +12,5 @@ Background: inventory management helper "tool" (Excel file)
 
 PS: 
 - this is old project made with Delphi
-- exe file starts (surprisingly) but it won't work without BDE allready installed
+- it won't work without BDE allready installed
 - don't ask for VCLs
