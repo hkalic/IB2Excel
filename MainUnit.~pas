@@ -1,0 +1,130 @@
+unit MainUnit;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, cxStyles, cxCustomData, cxGraphics, cxFilter, cxData,
+  cxDataStorage, cxEdit, DB, cxDBData, IBDatabase, IBCustomDataSet,
+  IBQuery, cxGridLevel, cxClasses, cxControls, cxGridCustomView,
+  cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGrid,
+  StdCtrls, ExtCtrls, ToolWin, ComCtrls, DBTables, Buttons;
+
+type
+  TForm1 = class(TForm)
+    GroupBox1: TGroupBox;
+    Memo1: TMemo;
+    GroupBox2: TGroupBox;
+    cxGrid1DBTableView1: TcxGridDBTableView;
+    cxGrid1Level1: TcxGridLevel;
+    cxGrid1: TcxGrid;
+    DataSource1: TDataSource;
+    ToolBar1: TToolBar;
+    Database1: TDatabase;
+    Query1: TQuery;
+    BitBtn1: TBitBtn;
+    BitBtn2: TBitBtn;
+    BitBtn3: TBitBtn;
+    OpenDialog1: TOpenDialog;
+    SaveDialog1: TSaveDialog;
+    BitBtn4: TBitBtn;
+    BitBtn5: TBitBtn;
+    BitBtn6: TBitBtn;
+    BitBtn7: TBitBtn;
+    ToolButton1: TToolButton;
+    ToolButton2: TToolButton;
+    BitBtn8: TBitBtn;
+    procedure Query1AfterOpen(DataSet: TDataSet);
+    procedure Query1BeforeOpen(DataSet: TDataSet);
+    procedure BitBtn1Click(Sender: TObject);
+    procedure BitBtn3Click(Sender: TObject);
+    procedure BitBtn2Click(Sender: TObject);
+    procedure BitBtn4Click(Sender: TObject);
+    procedure BitBtn5Click(Sender: TObject);
+    procedure BitBtn6Click(Sender: TObject);
+    procedure BitBtn7Click(Sender: TObject);
+    procedure BitBtn8Click(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Form1: TForm1;
+
+implementation
+uses cxexportgrid4link, cxexport;
+
+{$R *.dfm}
+
+procedure TForm1.Query1AfterOpen(DataSet: TDataSet);
+begin
+    cxGrid1DBTableView1.DataController.CreateAllItems;
+    DataSet.EnableControls;
+end;
+
+procedure TForm1.Query1BeforeOpen(DataSet: TDataSet);
+begin
+    cxGrid1DBTableView1.ClearItems;
+    DataSet.DisableControls;
+end;
+
+procedure TForm1.BitBtn1Click(Sender: TObject);
+begin
+    with Query1 do
+    begin
+        Close;
+        SQL:=Memo1.Lines;
+        Open;
+    end;
+end;
+
+procedure TForm1.BitBtn3Click(Sender: TObject);
+begin
+    Query1.Close;
+end;
+
+procedure TForm1.BitBtn2Click(Sender: TObject);
+begin
+    SaveDialog1.DefaultExt:='xls';
+    SaveDialog1.Filter:='EXCEL files|*.xls|All files|*.*';
+    if SaveDialog1.Execute then ExportGrid4ToExcel(SaveDialog1.FileName, cxGrid1, True, True);
+end;
+
+procedure TForm1.BitBtn4Click(Sender: TObject);
+begin
+    SaveDialog1.DefaultExt:='sql';
+    SaveDialog1.Filter:='SQL files|*.sql|All files|*.*';
+    if OpenDialog1.Execute then Memo1.Lines.LoadFromFile(OpenDialog1.FileName);
+end;
+
+procedure TForm1.BitBtn5Click(Sender: TObject);
+begin
+    SaveDialog1.DefaultExt:='html';
+    SaveDialog1.Filter:='HTML files|*.html|All files|*.*';
+    if SaveDialog1.Execute then ExportGrid4ToHTML(SaveDialog1.FileName, cxGrid1, True, True);
+end;
+
+procedure TForm1.BitBtn6Click(Sender: TObject);
+begin
+    SaveDialog1.DefaultExt:='txt';
+    SaveDialog1.Filter:='TXT files|*.txt|All files|*.*';
+    if SaveDialog1.Execute then ExportGrid4ToText(SaveDialog1.FileName, cxGrid1, True, True);
+end;
+
+procedure TForm1.BitBtn7Click(Sender: TObject);
+begin
+    SaveDialog1.DefaultExt:='xml';
+    SaveDialog1.Filter:='XML files|*.xml|All files|*.*';
+    if SaveDialog1.Execute then ExportGrid4ToXML(SaveDialog1.FileName, cxGrid1, True, True);
+end;
+
+procedure TForm1.BitBtn8Click(Sender: TObject);
+begin
+    SaveDialog1.DefaultExt:='sql';
+    SaveDialog1.Filter:='SQL files|*.sql|All files|*.*';
+    if SaveDialog1.Execute then Memo1.Lines.SaveToFile(SaveDialog1.FileName);
+end;
+
+end.
